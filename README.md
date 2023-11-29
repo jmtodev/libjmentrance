@@ -99,8 +99,8 @@ Output dari `jmentrance_decrypt` merupakan `hex-string` dengan format sebagai be
 | 11 | 1 | DETIK TRANSAKSI | `SS` |
 | 12 | 1 | STATUS | `00` Belum exit, `01` Sudah exit |
 | 13 | 1 | JENIS | Tidak dipakai |
-| 14 | 1 | GOLONGAN | - |
-| 15-17 | 4 | ID PETUGAS | `1` s/d `5` |
+| 14 | 1 | GOLONGAN | `1` s/d `5` |
+| 15-17 | 4 | ID PETUGAS | - |
 | 18 | 1 | Direction | Tidak dipakai |
 | 19-21 | 3 | CHECKSUM | - |
 

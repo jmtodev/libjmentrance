@@ -102,6 +102,27 @@ Output dari `jmentrance_decrypt` merupakan `hex-string` dengan format sebagai be
 | 18 | 1 | Direction | Tidak dipakai |
 | 19-21 | 3 | CHECKSUM | - |
 
+## Test Output
+```
+TEST BCA
+UUID      : AB56EE01
+ENCRYPTED : 05A4B618A982AA55D61C1284684923E7
+DECRYPTED : 25610400000329112315375500000212553200001569
+ERR-CODE  : 0
+
+TEST ETOLL NON BCA (BELUM EXIT)
+UUID      : 6013500130684476
+ENCRYPTED : 4D4619FADD5E111F2604AF9453A52D9D
+DECRYPTED : 25640100000329112315375500000110101000042189
+ERR-CODE  : 0
+
+TEST ETOLL NON BCA (SUDAH EXIT)
+UUID      : 7546000012122780
+ENCRYPTED : 615870B6B93F44ABB07EEADCB581CBC6
+DECRYPTED : 25640163000329112315375501000312121200051726
+ERR-CODE  : 0
+```
+
 # Referensi Library
 Berikut adalah referensi lengkap dari `libjmentrance` yang terbagi kedalam `2 segment` diantaranya:
 - **Function** - Merupakan fungsi-fungsi yang terdapat dalam library.

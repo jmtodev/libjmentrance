@@ -3,10 +3,11 @@
 **`libjmentrance`** merupakan library untuk melakukan **decrypt** data entrance tol yang ditulis oleh peralatan tol
 dengan software **Toll Collector Jasa Marga**.
 
-Library tersedia untuk `Linux` dalam `3` arsitektur, diantaranya:
+Library tersedia untuk `Linux` dalam `4` arsitektur, diantaranya:
 * `amd64` - Intel/AMD x86 dengan 64bit
 * `aarch64` - ARM 64bit
 * `armv7` - ARM 32bit
+* `i386` - Intel 32bit
 
 Sedangkan untuk `QNX/NTO` hanya disediakan arsitektur `i386` (Intel/AMD x86 dengan 32bit)
 
@@ -20,6 +21,7 @@ Berikut adalah nama-nama file binary untuk library beserta keterangan arsitektur
 * `libjmentrance-amd64.a` / `libjmentrance-amd64.o` - Linux x86 64bit
 * `libjmentrance-aarch64.a` / `libjmentrance-aarch64.o` - Linux ARM 64bit
 * `libjmentrance-armv7.a` / `libjmentrance-armv7.o` - Linux ARMv7
+* `libjmentrance-i386.a` / `libjmentrance-i386.o` - Linux x86 32bit
 * `libjmentrance-i386-qnx.a` / `libjmentrance-i386-qnx.o` - QNX/NTO x86 32bit
 
 ## Test Program
@@ -37,9 +39,6 @@ Test program dapat dilihat pada file `example/libjmentrance-test.c`, dan dapat d
 ```
 
 # Library Usage
-Berikut adalah referensi lengkap dari `libjmentrance` yang terbagi kedalam `2 segment` diantaranya:
-- **Function** - Merupakan fungsi-fungsi yang terdapat dalam library.
-- **Constants** - Merupakan kumpulan nilai konstanta yang digunakan pada library
 
 ## Penyimpanan Data
 Entrance tol Jasa Marga yang telah di-enkripsi akan memiliki panjang `16 bytes` atau `32 hex-characters`, sehingga

@@ -36,6 +36,9 @@ Test program dapat dilihat pada file `example/libjmentrance-test.c`, dan dapat d
 
 # Build untuk arm-v7 32bit
 ./build_test.sh armv7
+
+# Build untuk x86 32bit
+./build_test.sh i386
 ```
 
 # Library Usage

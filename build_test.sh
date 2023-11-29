@@ -13,6 +13,12 @@ elif [[ $1 == "armv7" ]]; then
   export AR=${CROSS_COMPILER}ar
   export CFLAGS=""
   export ARCH="armv7"
+elif [[ $1 == "i386" ]]; then
+  echo "BUILD i386"
+  export CC=gcc
+  export AR=ar
+  export CFLAGS="-m32"
+  export ARCH="i386"
 else
   echo "BUILD x86-64"
   export CC=gcc

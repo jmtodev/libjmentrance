@@ -40,8 +40,8 @@ int main() {
   int ret;
 
   /*
-  TEST BCA (BELUM EXIT)
-  ---------------------
+  TEST BCA/DINAS (BELUM EXIT)
+  ---------------------------
   CB / GB / GD     : 25 / 61 / 04
   Status / GB Exit : 00 / 00
   Jenis / IID      : 00 / 0003
@@ -58,7 +58,7 @@ int main() {
   ret = jmentrance_decrypt(jmentrance_jjs_pubkey, jmentrance_jjs_cluster_id,
                            sn_bca, data_bca, out_bca, 45);
   printf(
-      "TEST BCA\n"
+      "TEST BCA/DINAS\n"
       "UUID      : %s\n"
       "ENCRYPTED : %s\n"
       "DECRYPTED : %s\n"
@@ -102,10 +102,12 @@ int main() {
   Tanggal          : 2023-11-29 15:37:55
   Checksum         : 0
   SN               : 7546000012122780
-  ENCRYPTED-DATA   : 615870B6B93F44ABB07EEADCB581CBC6
+  ENCRYPTED-DATA   : 615870B6B93F44ABB07EEADCB581CBC6FFFFFFFFFFFF
+
+  *** Panjang encrypted data berisi lebih dari 32hex.
   */
   const char* sn_etoll2 = "7546000012122780"; /* Non-BCA Gunaan SN */
-  const char* data_etoll2 = "615870B6B93F44ABB07EEADCB581CBC6";
+  const char* data_etoll2 = "615870B6B93F44ABB07EEADCB581CBC6FFFFFFFFFFFF";
   char out_etoll2[45] = {0};
   ret = jmentrance_decrypt(jmentrance_jjs_pubkey, jmentrance_jjs_cluster_id,
                            sn_etoll2, data_etoll2, out_etoll2, 45);

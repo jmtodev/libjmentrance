@@ -24,9 +24,6 @@
 
 #include <libjmentrance.h>
 #include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <ctype.h> /* tolower */
 
 /* Public Key untuk JJS */
 const char* jmentrance_jjs_pubkey =

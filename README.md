@@ -155,7 +155,6 @@ Decrypt `raw data` (hex string) yang didapatkan dari kartu menjadi output standa
 - `pubkey` : Public-key untuk decrypt
 - `cluster_id` : Cluster-id key
 - `sn` : Nomor kartu etoll atau `uuid` untuk BCA
-- `card_type` : Gunakan `LIBJJS_CARD_ETOLL` atau `LIBJJS_CARD_BCA`
 - `input` : Hex string input
 - `output` : Hex string output
 - `output_length` : Length dari output buffer

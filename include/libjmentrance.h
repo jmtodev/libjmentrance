@@ -48,7 +48,6 @@ extern "C" {
  * @param pubkey Public-key untuk decrypt
  * @param cluster_id Cluster-id key
  * @param sn Nomor kartu etoll atau `uuid` untuk BCA
- * @param card_type Gunakan `LIBJJS_CARD_ETOLL` atau `LIBJJS_CARD_BCA`
  * @param input Hex string input
  * @param output Hex string output
  * @param output_length Length dari output buffer

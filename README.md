@@ -67,13 +67,25 @@ ret = jmentrance_decrypt(jmentrance_jjs_pubkey, jmentrance_jjs_cluster_id,
 Data entrance akan disimpan pada block `44`  (dalam satu block saja). Dan parameter `sn` pada fungsi
 `jmentrance_decrypt` diisi dengan `hex-uuid` (Bukan SN Kartu).
 
+Block `45` akan berisi owner code pada byte pertama dengan konten `0x91` untuk entrance yang belum melakukan exit dan
+`0x90` untuk entrance yang telah melakukan exit.
+
 Block `46` tidak digunakan.
 
-Block `45` akan berisi owner code pada byte pertama dengan konten `0x91` untuk entrance yang belum melakukan exit dan
+## Block Data Kartu Dinas
+Data entrance akan disimpan pada block `16`  (dalam satu block saja). Dan parameter `sn` pada fungsi
+`jmentrance_decrypt` diisi dengan `hex-uuid` (Bukan SN Kartu).
+
+Block `17` akan berisi owner code pada byte pertama dengan konten `0x91` untuk entrance yang belum melakukan exit dan
 `0x90` untuk entrance yang telah melakukan exit. 
 
-## Block Data Kartu Dinas
-Belum tersedia
+Block `18` tidak digunakan.
+
+Key untuk block `16`, `17` dan `18` (Sektor `4`) adalah:
+
+- `Key A` Sector `4` : `0CB0FFDCB72E`
+- `Key B` Sector `4` : `0C6C47B41A72`
+
 
 ## Keys
 Entrance tol Jasa Marga menggunakan enkripsi `public` & `private` key. Untuk melakukan `decrypt`

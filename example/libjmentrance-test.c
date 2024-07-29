@@ -33,8 +33,24 @@ const char* jmentrance_jjs_pubkey =
 /* Cluster-ID Key untuk JJS */
 const char* jmentrance_jjs_cluster_id = "ba24cc34";
 
+/* Public Key untuk JMJ */
+const char* jmentrance_jmj_pubkey =
+    "830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b"
+    "250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b";
+
+/* Cluster-ID Key untuk JMJ */
+const char* jmentrance_jmj_cluster_id = "ba5cee4e";
+
 int main() {
   int ret;
+
+  /* JJS */
+  //   const char * pubkey =jmentrance_jmj_pubkey;
+  //   const char * clusterid =jmentrance_jmj_cluster_id;
+
+  /* JMJ */
+  const char* pubkey = jmentrance_jmj_pubkey;
+  const char* clusterid = jmentrance_jmj_cluster_id;
 
   /*
   TEST BCA/DINAS (BELUM EXIT)
@@ -52,8 +68,7 @@ int main() {
   const char* sn_bca = "AB56EE01"; /* BCA Gunakan UUID */
   const char* data_bca = "05A4B618A982AA55D61C1284684923E7";
   char out_bca[45] = {0};
-  ret = jmentrance_decrypt(jmentrance_jjs_pubkey, jmentrance_jjs_cluster_id,
-                           sn_bca, data_bca, out_bca, 45);
+  ret = jmentrance_decrypt(pubkey, clusterid, sn_bca, data_bca, out_bca, 45);
   printf(
       "TEST BCA/DINAS\n"
       "UUID      : %s\n"
@@ -78,8 +93,8 @@ int main() {
   const char* sn_etoll1 = "6013500130684476"; /* Non-BCA Gunaan SN */
   const char* data_etoll1 = "4D4619FADD5E111F2604AF9453A52D9D";
   char out_etoll1[45] = {0};
-  ret = jmentrance_decrypt(jmentrance_jjs_pubkey, jmentrance_jjs_cluster_id,
-                           sn_etoll1, data_etoll1, out_etoll1, 45);
+  ret = jmentrance_decrypt(pubkey, clusterid, sn_etoll1, data_etoll1,
+                           out_etoll1, 45);
   printf(
       "TEST ETOLL NON BCA (BELUM EXIT)\n"
       "UUID      : %s\n"
@@ -106,8 +121,8 @@ int main() {
   const char* sn_etoll2 = "7546000012122780"; /* Non-BCA Gunaan SN */
   const char* data_etoll2 = "615870B6B93F44ABB07EEADCB581CBC6FFFFFFFFFFFF";
   char out_etoll2[45] = {0};
-  ret = jmentrance_decrypt(jmentrance_jjs_pubkey, jmentrance_jjs_cluster_id,
-                           sn_etoll2, data_etoll2, out_etoll2, 45);
+  ret = jmentrance_decrypt(pubkey, clusterid, sn_etoll2, data_etoll2,
+                           out_etoll2, 45);
   printf(
       "TEST ETOLL NON BCA (SUDAH EXIT)\n"
       "UUID      : %s\n"

@@ -89,9 +89,11 @@ Key untuk block `16`, `17` dan `18` (Sektor `4`) adalah:
 
 ## Keys
 Entrance tol Jasa Marga menggunakan enkripsi `public` & `private` key. Untuk melakukan `decrypt`
-library memerlukan `public-key` dan `cluster-id-key`, dimana untuk ruas **JJS** data key & cluster
-adalah sebagai berikut:
+library memerlukan `public-key` dan `cluster-id-key`. Setiap ruas memiliki key dan cluster-id yang berbeda-beda.
 
+Berikut adalah data key & cluster-id yang dapat digunakan:
+
+### JJS
 **PUBLIC KEY**
 ```
 bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277e5093e25af511eeb9f1aabf61646db59df1e9722ad901851ffca3d
@@ -100,6 +102,17 @@ bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277e5093e
 **CLUSTER ID KEY**
 ```
 ba24cc34
+```
+
+### JMJ
+**PUBLIC KEY**
+```
+830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b
+```
+
+**CLUSTER ID KEY**
+```
+ba5cee4e
 ```
 
 ## Struktur Output Data
@@ -194,12 +207,12 @@ int jmentrance_decrypt(
 ### Error Code
 | NAME | VALUE | Keterangan |
 | ------ | ------ | ------ |
-|`LIBJJS_OK`|`0`|Tidak terjadi error|
-|`LIBJJS_ERR_LENGTH`|`1`|Length data error|
-|`LIBJJS_ERR_CHECKSUM`|`2`|Checksum error|
-|`LIBJJS_ERR_SIG`|`3`|Signature error|
-|`LIBJJS_ERR_DATA`|`4`|Input Data error|
-|`LIBJJS_ERR_BUFSZ`|`5`|not enough buffer size|
+|`JMENTRANCE_OK`|`0`|Tidak terjadi error|
+|`JMENTRANCE_ERR_LENGTH`|`1`|Length data error|
+|`JMENTRANCE_ERR_CHECKSUM`|`2`|Checksum error|
+|`JMENTRANCE_ERR_SIG`|`3`|Signature error|
+|`JMENTRANCE_ERR_DATA`|`4`|Input Data error|
+|`JMENTRANCE_ERR_BUFSZ`|`5`|not enough buffer size|
 
 
 

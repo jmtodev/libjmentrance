@@ -14,16 +14,16 @@
  * limitations under the License.
  *______________________________________________________________________________
  *
- * Filename    : libjjs.h
- * Description : lib jjs entrance header
+ * Filename    : libjmentrance.h
+ * Description : Jasa marga entrance library header
  *
- * + This is part of libjjs
+ * + This is part of limjmentrance
  * + 2023 - Author(s): Ahmad Amarullah
  *
  */
 
-#ifndef __libjjs_h__
-#define __libjjs_h__
+#ifndef __libjmentrance_h__
+#define __libjmentrance_h__
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,12 +35,12 @@ extern "C" {
 /**
  * DEFINE Error Code
  */
-#define LIBJJS_OK 0           /* Tidak terjadi error */
-#define LIBJJS_ERR_LENGTH 1   /* Length data error */
-#define LIBJJS_ERR_CHECKSUM 2 /* Checksum error */
-#define LIBJJS_ERR_SIG 3      /* Signature error */
-#define LIBJJS_ERR_DATA 4     /* Input Data error */
-#define LIBJJS_ERR_BUFSZ 5    /* not enough buffer size */
+#define JMENTRANCE_OK 0           /* Tidak terjadi error */
+#define JMENTRANCE_ERR_LENGTH 1   /* Length data error */
+#define JMENTRANCE_ERR_CHECKSUM 2 /* Checksum error */
+#define JMENTRANCE_ERR_SIG 3      /* Signature error */
+#define JMENTRANCE_ERR_DATA 4     /* Input Data error */
+#define JMENTRANCE_ERR_BUFSZ 5    /* not enough buffer size */
 
 /**
  * Decrypt `raw data` (hex string) yang didapatkan dari kartu menjadi
@@ -62,4 +62,4 @@ int jmentrance_decrypt(const char* pubkey, const char* cluster_id,
 #ifdef __cplusplus
 }
 #endif
-#endif /* __libjjs_h__ */
+#endif /* __libjmentrance_h__ */

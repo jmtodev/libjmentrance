@@ -11,6 +11,11 @@ Library tersedia untuk `Linux` dalam `4` arsitektur, diantaranya:
 
 Sedangkan untuk `QNX/NTO` hanya disediakan arsitektur `i386` (Intel/AMD x86 dengan 32bit)
 
+Untuk `windows` tersedia dalam bentuk cli-tools executable. *(Lihat folder `windows`)*
+Tools Executable tersedia untuk `windows`.
+
+jmentrance <public-key> <cluster-id> <card-sn> <encrypted-data>
+
 ## Binary Build Library
 `libjmentrance` dibangun sebagai `static library` untuk `C/C++` yang dapat digunakan pada environment `gcc`.
 
@@ -23,6 +28,17 @@ Berikut adalah nama-nama file binary untuk library beserta keterangan arsitektur
 * `libjmentrance-armv7.a` / `libjmentrance-armv7.o` - Linux ARMv7
 * `libjmentrance-i386.a` / `libjmentrance-i386.o` - Linux x86 32bit
 * `libjmentrance-i386-qnx.a` / `libjmentrance-i386-qnx.o` - QNX/NTO x86 32bit
+
+
+## CLI-Tools untuk Windows
+CLI-Tools untuk windows dapat dilihat pada folder windows
+* `windows/jmentrance.exe` cli-tools
+* `windows/test-windows.bat` example penggunaan cli tools
+
+Format CLI-Tools
+```
+jmentrance <public-key> <cluster-id> <card-sn> <encrypted-data>
+```
 
 ## Test Program
 Test program dapat dilihat pada file `example/libjmentrance-test.c`, dan dapat di-build dengan `build_test.sh` (Hanya untuk Linux). Berikut command untuk melakukan build sesuai dengan arsitektur yang dituju:

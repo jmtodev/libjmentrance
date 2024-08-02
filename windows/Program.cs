@@ -30,7 +30,7 @@ namespace csexample
             StringBuilder output = new StringBuilder(45);
 
             /* HIMBARA */
-            string sn = "7546000012122780"; /* Gunakan sn kartu untuk BCA */
+            string sn = "7546000012122780"; /* Gunakan sn kartu untuk HIMBARA */
             string data = "615870B6B93F44ABB07EEADCB581CBC6FFFFFFFFFFFF";
             int ret = jmentrance_decrypt(pubkey, clusterid, sn, data, output, 45);
             Console.WriteLine("HIMBARA: "+ret+" = "+output);

@@ -29,6 +29,35 @@ Berikut adalah nama-nama file binary untuk library beserta keterangan arsitektur
 * `libjmentrance-i386.a` / `libjmentrance-i386.o` - Linux x86 32bit
 * `libjmentrance-i386-qnx.a` / `libjmentrance-i386-qnx.o` - QNX/NTO x86 32bit
 
+## DLL untuk Windows dan C#
+Library berupa DLL dan contoh penggunaan/pinvoke C# untuk windows dapat ditemukan pada folder windows
+* `windows/jmentrance.dll` dll library
+* `windows/Program.cs` contoh pinvoke dalam c#
+
+Deklarasi method pada c#
+```c#
+/* PInvoke jmentrance */
+[DllImport("jmentrance.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
+internal static extern int jmentrance_decrypt([MarshalAs(UnmanagedType.LPStr)] string pubkey,
+    [MarshalAs(UnmanagedType.LPStr)] string cluster_id,
+    [MarshalAs(UnmanagedType.LPStr)] string sn,
+    [MarshalAs(UnmanagedType.LPStr)] string input,
+    [MarshalAs(UnmanagedType.LPStr)] StringBuilder output, int output_len);
+```
+
+Contoh fungsi
+```c#
+/* Output Buffer */
+StringBuilder output = new StringBuilder(45);
+
+/* HIMBARA */
+string sn = "7546000012122780"; /* Gunakan sn kartu untuk HIMBARA */
+string data = "615870B6B93F44ABB07EEADCB581CBC6FFFFFFFFFFFF";
+int ret = jmentrance_decrypt(pubkey, clusterid, sn, data, output, 45);
+Console.WriteLine("HIMBARA: "+ret+" = "+output);
+```
+
+Untuk status return, dapat dibaca lebih lanjut pada pembahasan *Constants - Error Code*.
 
 ## CLI-Tools untuk Windows
 CLI-Tools untuk windows dapat dilihat pada folder windows
@@ -105,30 +134,25 @@ Key untuk block `16`, `17` dan `18` (Sektor `4`) adalah:
 
 ## Keys
 Entrance tol Jasa Marga menggunakan enkripsi `public` & `private` key. Untuk melakukan `decrypt`
-library memerlukan `public-key` dan `cluster-id-key`. Setiap ruas memiliki key dan cluster-id yang berbeda-beda.
+library memerlukan `public-key` dan `cluster-id`. Setiap ruas memiliki key dan cluster-id yang berbeda-beda.
 
 Berikut adalah data key & cluster-id yang dapat digunakan:
 
 ### JJS
+**CLUSTER ID :** `ba24cc34`
+
 **PUBLIC KEY**
 ```
 bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277e5093e25af511eeb9f1aabf61646db59df1e9722ad901851ffca3d
 ```
 
-**CLUSTER ID KEY**
-```
-ba24cc34
-```
 
 ### JMJ
+**CLUSTER ID :** `ba5cee4e`
+
 **PUBLIC KEY**
 ```
 830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b
-```
-
-**CLUSTER ID KEY**
-```
-ba5cee4e
 ```
 
 ## Struktur Output Data

@@ -11,10 +11,7 @@ Library tersedia untuk `Linux` dalam `4` arsitektur, diantaranya:
 
 Sedangkan untuk `QNX/NTO` hanya disediakan arsitektur `i386` (Intel/AMD x86 dengan 32bit)
 
-Untuk `windows` tersedia dalam bentuk cli-tools executable. *(Lihat folder `windows`)*
-Tools Executable tersedia untuk `windows`.
-
-jmentrance <public-key> <cluster-id> <card-sn> <encrypted-data>
+Untuk `windows` tersedia dalam bentuk `dll` native dan managed (.net) disertai example untuk invoke pada c#, juga tersedia berupa cli-tools executable. *(Lihat folder `windows`)*
 
 ## Binary Build Library
 `libjmentrance` dibangun sebagai `static library` untuk `C/C++` yang dapat digunakan pada environment `gcc`.

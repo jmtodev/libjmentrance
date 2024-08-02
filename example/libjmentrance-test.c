@@ -45,8 +45,8 @@ int main() {
   int ret;
 
   /* JJS */
-  //   const char * pubkey =jmentrance_jmj_pubkey;
-  //   const char * clusterid =jmentrance_jmj_cluster_id;
+  //   const char * pubkey =jmentrance_jjs_pubkey;
+  //   const char * clusterid =jmentrance_jjs_cluster_id;
 
   /* JMJ */
   const char* pubkey = jmentrance_jmj_pubkey;

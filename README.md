@@ -154,7 +154,7 @@ bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277e5093e
 
 ## Struktur Output Data
 Output dari `jmentrance_decrypt` merupakan `hex-string` dengan format sebagai berikut:
-| LOKASI | UKURAN | KODE | KETERANGAN | DETAIL | 
+| LOKASI | UKURAN | KETERANGAN | KODE | DETAIL | 
 | ------ | ------ | ------ | ------ | ------ |
 | 0 | 1 | NO CABANG | `CB` | - |
 | 1 | 1 | NO GERBANG | `GB` | - |

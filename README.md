@@ -152,6 +152,54 @@ bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277e5093e
 830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b
 ```
 
+## Penggunaan Library pada Multi Ruas
+Karena berbasis key, maka library sudah mendukung implementasi multiruas, dengan menyiapkan seleksi kondisi baik pada runtime atau compile time.
+
+**Contoh implementasi compile-time/macro**
+```c
+#ifdef TCT_JJS
+  /* JJS */
+  static const char* key =
+    "bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277"
+    "e5093e25af511eeb9f1aabf61646db59df1e9722ad901851ffca3d";
+  static const char* cluster = "ba24cc34";
+#endif
+
+#ifdef TCT_JMJ
+  /* JMJ */
+  static const char* key =
+    "830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b"
+    "250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b";
+  static const char* cluster = "ba5cee4e";
+#endif
+
+/* Baca Data */
+int status = jmentrance_decrypt(key, cluster, sn, data, output, 45);
+```
+
+**Contoh implementasi pada runtime**
+```c
+char* key ="";
+char* cluster = "ba24cc34";
+
+if (ini_tct_jjs){
+  key =
+    "bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277"
+    "e5093e25af511eeb9f1aabf61646db59df1e9722ad901851ffca3d";
+  cluster = "ba24cc34";
+}
+else if (ini_tct_jmj){
+  key =
+    "830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b"
+    "250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b";
+  cluster = "ba5cee4e";
+}
+
+/* Baca Data */
+int status = jmentrance_decrypt(key, cluster, sn, data, output, 45);
+
+```
+
 ## Struktur Output Data
 Output dari `jmentrance_decrypt` merupakan `hex-string` dengan format sebagai berikut:
 | LOKASI | UKURAN | KETERANGAN | KODE | DETAIL | 

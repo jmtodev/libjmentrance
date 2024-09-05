@@ -51,7 +51,7 @@ extern "C" {
  * @param input Hex string input
  * @param output Hex string output
  * @param output_length Length dari output buffer
- * @return Error Code. Lihat `LIBJJS_OK` atau <b>LIBJJS_ERR_*</b>
+ * @return Error Code. Lihat `JMENTRANCE_OK` atau <b>JMENTRANCE_ERR_*</b>
  */
 int jmentrance_decrypt(const char* pubkey, const char* cluster_id,
                        const char* sn, const char* input, char* output,

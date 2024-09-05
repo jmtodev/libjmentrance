@@ -26,6 +26,12 @@ Berikut adalah nama-nama file binary untuk library beserta keterangan arsitektur
 * `libjmentrance-i386.a` / `libjmentrance-i386.o` - Linux x86 32bit
 * `libjmentrance-i386-qnx.a` / `libjmentrance-i386-qnx.o` - QNX/NTO x86 32bit
 
+## Binary untuk ARM non Linux (Cortex-M non-linux)
+Untuk keperluan library diluar linux, misalnya micro-controller berbasis arm, dapat menggunakan library
+pada folder `lib` atau `obj` berikut:
+* `libjmentrance-noneabi-arm.a`
+* `libjmentrance-noneabi-arm.o`
+
 ## DLL untuk Windows dan C#
 Library berupa DLL dan contoh penggunaan/pinvoke C# untuk windows dapat ditemukan pada folder windows
 * `windows/jmentrance.dll` dll library
@@ -336,7 +342,7 @@ Decrypt `raw data` (hex string) yang didapatkan dari kartu menjadi output standa
 - `output_length` : Length dari output buffer
  
 #### Return Value
-- Error Code. Lihat `LIBJJS_OK` atau `LIBJJS_ERR_*`
+- Error Code. Lihat `JMENTRANCE_OK` atau `JMENTRANCE_ERR_*`
 
 ``` c
 int jmentrance_decrypt(

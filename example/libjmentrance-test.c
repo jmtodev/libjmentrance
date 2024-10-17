@@ -237,11 +237,30 @@ void test_jpb() {
   char* sn;
   char* enc;
   char out[45] = {0};
+  /* GOL GB         NOGB  GD*/
+  /* 4   KRAKSAAN   61    3	*/
+  sn = "6013500418244902";
+  enc = "D200B2200E12C10C485613599C689BFFFFFFFFFFFFFF";
+  ret = jmentrance_decrypt(pubkey, clusterid, sn, enc, out, 45);
+  print_info("JPB BRI", sn, enc, out, ret);
 
+  /* 1   KRAKSAAN   61    5 */
+  sn = "7546130008699754";
+  enc = "138FA85DFF210C3F00852AA3E3CDA43DFFFFFFFFFFFF";
+  ret = jmentrance_decrypt(pubkey, clusterid, sn, enc, out, 45);
+  print_info("JPB BNI", sn, enc, out, ret);
+
+  /* 3   SITUBONDO BARAT  63  1	*/
   sn = "6032982864461171";
-  enc = "56CF1C2A8533495FF9C9E124FE2F0ADDFFFFFFFFFFFF";
+  enc = "C779EA3A11A0935327AB5887E50049E8FFFFFFFFFFFF";
   ret = jmentrance_decrypt(pubkey, clusterid, sn, enc, out, 45);
   print_info("JPB MANDIRI", sn, enc, out, ret);
+
+  /* 5   PAITON   62   3	*/
+  sn = "15CC8081";
+  enc = "21D0D1A46DFF034FF22FC2D0B743AFAE";
+  ret = jmentrance_decrypt(pubkey, clusterid, sn, enc, out, 45);
+  print_info("JPB BCA", sn, enc, out, ret);
 }
 
 int main() {

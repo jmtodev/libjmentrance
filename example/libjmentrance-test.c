@@ -41,6 +41,14 @@ const char* jmentrance_jmj_pubkey =
 /* Cluster-ID Key untuk JMJ */
 const char* jmentrance_jmj_cluster_id = "ba5cee4e";
 
+/* Public Key untuk JPB */
+const char* jmentrance_jpb_pubkey =
+    "9eb796b173bb43f5cc081fe721a7113bd6137230e0432e522a5bc42beec04829d61f5bafc6"
+    "72f3746de1c555bc7c5ef9dbf994d869ef8a745993de8edc849641";
+
+/* Cluster-ID Key untuk JPB */
+const char* jmentrance_jpb_cluster_id = "ba14ee33";
+
 /* Print Info */
 void print_info(const char* title, const char* uid, const char* enc,
                 const char* dec, int ecd) {
@@ -217,6 +225,25 @@ void test_jmj() {
   print_info("JJS BNI", sn, enc, out, ret);
 }
 
+/* Test Data JPB */
+void test_jpb() {
+  int ret;
+
+  /* JMJ */
+  const char* pubkey = jmentrance_jpb_pubkey;
+  const char* clusterid = jmentrance_jpb_cluster_id;
+
+  /* Variabel */
+  char* sn;
+  char* enc;
+  char out[45] = {0};
+
+  sn = "6032982864461171";
+  enc = "56CF1C2A8533495FF9C9E124FE2F0ADDFFFFFFFFFFFF";
+  ret = jmentrance_decrypt(pubkey, clusterid, sn, enc, out, 45);
+  print_info("JPB MANDIRI", sn, enc, out, ret);
+}
+
 int main() {
   printf("TEST DATA JJS\n");
   printf("=============\n");
@@ -226,5 +253,10 @@ int main() {
   printf("TEST DATA JMJ\n");
   printf("=============\n");
   test_jmj();
+
+  printf("\n\n");
+  printf("TEST DATA JPB\n");
+  printf("=============\n");
+  test_jpb();
   return 0;
 }

@@ -158,6 +158,14 @@ bad265420de99f9f78435d2207e44859ca4eba4af53650d50ed63466e3657225cf07967277e5093e
 830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b
 ```
 
+### JBP
+**CLUSTER ID :** `ba14ee33`
+
+**PUBLIC KEY**
+```
+9eb796b173bb43f5cc081fe721a7113bd6137230e0432e522a5bc42beec04829d61f5bafc672f3746de1c555bc7c5ef9dbf994d869ef8a745993de8edc849641
+```
+
 ## Penggunaan Library pada Multi Ruas
 Karena berbasis key, maka library sudah mendukung implementasi multiruas, dengan menyiapkan seleksi kondisi baik pada runtime atau compile time.
 
@@ -177,6 +185,14 @@ Karena berbasis key, maka library sudah mendukung implementasi multiruas, dengan
     "830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b"
     "250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b";
   static const char* cluster = "ba5cee4e";
+#endif
+
+#ifdef TCT_JBP
+  /* JBP */
+  static const char* key =
+    "9eb796b173bb43f5cc081fe721a7113bd6137230e0432e522a5bc42beec04829d61f5bafc6"
+    "72f3746de1c555bc7c5ef9dbf994d869ef8a745993de8edc849641";
+  static const char* cluster = "ba14ee33";
 #endif
 
 /* Baca Data */
@@ -199,6 +215,12 @@ else if (ini_tct_jmj){
     "830d659aa4500b4fe5d0dd5c8e38e367a564a6fe846ed758b34884ee40dbfaefb5454b1f3b"
     "250eed2e52a93abbef99c5c142a9218f58198fda9da4e035ccdb3b";
   cluster = "ba5cee4e";
+}
+else if (ini_tct_jbp){
+  key =
+    "9eb796b173bb43f5cc081fe721a7113bd6137230e0432e522a5bc42beec04829d61f5bafc6"
+    "72f3746de1c555bc7c5ef9dbf994d869ef8a745993de8edc849641";
+  cluster = "ba14ee33";
 }
 
 /* Baca Data */

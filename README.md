@@ -120,8 +120,8 @@ Block `45` akan berisi owner code pada byte pertama dengan konten `0x91` untuk e
 
 Block `46` tidak digunakan.
 
-## Kartu Dinas
-### Kartu Dinas Format Delameta
+# Kartu Dinas
+## Kartu Dinas Format Delameta
 Data entrance akan disimpan pada sector `9` block `0` (Atau absolute-block `36`). Dan parameter `sn` pada fungsi `jmentrance_decrypt` diisi dengan `hex-uuid`.
 
 Block `1` dan `2` pada sector `9` (Atau absolute-block `37` dan `38`) akan berisi data kosong yang tidak akan digunakan.
@@ -135,7 +135,24 @@ Berikut adalah key pada masing-masing sector:
 
 Kartu dinas format ini menggunakan sistem `whitelist`, sehingga hanya kartu-kartu yang `uuid` nya terdaftar saja yang dapat ditransaksikan.
 
-### Format JM Card
+| SECTOR | BLOCK | ABS | KETERANGAN | CONTOH | 
+| ------ | ------ | ------ | ------ | ------ |
+| 9 | 0 | 36 | DATA ENTRANCE | `B348E69BBF66159A3FA17EDAFA45FADB` |
+|  | 1 | 37 | - | `00000000000000000000000000000000` |
+|  | 2 | 38 | - | `00000000000000000000000000000000` |
+| 15 | 0 | 60 | OWNER CODE | `91000000000000000000000000000000` |
+
+**Contoh Decrypt:**
+```c
+if (ownercode==91){
+  const char* sn = "F1259F1E";
+  const char* data = "B348E69BBF66159A3FA17EDAFA45FADB";
+  char out[45] = {0};
+  ret = jmentrance_decrypt(pubkey, cluster_id, sn, data, out, 45);
+}
+```
+
+## Format JM Card
 Data entrance akan disimpan pada block `16`  (dalam satu block saja). Dan parameter `sn` pada fungsi
 `jmentrance_decrypt` diisi dengan `hex-uuid` (Bukan SN Kartu).
 
@@ -148,6 +165,12 @@ Key untuk block `16`, `17` dan `18` (Sektor `4`) adalah:
 
 - `Key A` Sector `4` : `0CB0FFDCB72E`
 - `Key B` Sector `4` : `0C6C47B41A72`
+
+| SECTOR | BLOCK | ABS | KETERANGAN | CONTOH | 
+| ------ | ------ | ------ | ------ | ------ |
+| 4 | 0 | 16 | DATA ENTRANCE | `B348E69BBF66159A3FA17EDAFA45FADB` |
+|  | 1 | 17 | OWNER CODE | `91000000000000000000000000000000` |
+|  | 2 | 18 | - | `00000000000000000000000000000000` |
 
 
 ## Keys

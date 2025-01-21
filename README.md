@@ -120,7 +120,22 @@ Block `45` akan berisi owner code pada byte pertama dengan konten `0x91` untuk e
 
 Block `46` tidak digunakan.
 
-## Block Data Kartu Dinas
+## Kartu Dinas
+### Kartu Dinas Format Delameta
+Data entrance akan disimpan pada sector `9` block `0` (Atau absolute-block `36`). Dan parameter `sn` pada fungsi `jmentrance_decrypt` diisi dengan `hex-uuid`.
+
+Block `1` dan `2` pada sector `9` (Atau absolute-block `37` dan `38`) akan berisi data kosong yang tidak akan digunakan.
+
+Owner code akan disimpan pada sector `15` block `0` (Atau absolute-block `60`)
+dengan kode owner `91` untuk data entrance yang belum melakukan exit dan `90` untuk entrance yang telah melakukan exit.
+
+Berikut adalah key pada masing-masing sector:
+- `Key B` Sector `9` : `CD3A50871064`
+- `Key B` Sector `15` : `AE19F1D3D7E9`
+
+Kartu dinas format ini menggunakan sistem `whitelist`, sehingga hanya kartu-kartu yang `uuid` nya terdaftar saja yang dapat ditransaksikan.
+
+### Format JM Card
 Data entrance akan disimpan pada block `16`  (dalam satu block saja). Dan parameter `sn` pada fungsi
 `jmentrance_decrypt` diisi dengan `hex-uuid` (Bukan SN Kartu).
 

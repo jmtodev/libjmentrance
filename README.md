@@ -410,10 +410,37 @@ Berikut adalah referensi lengkap dari `libjmentrance` yang terbagi kedalam `2 se
 ---
 ## Daftar Isi
 
+- **[Struktur Data](#struktur-data)**
+	- [`jmcard_ng_t`](#jmcard_ng_t)
 - **[Functions](#functions)**
 	- [`jmentrance_decrypt()`](#jmentrance_decrypt)
+	- [`jmcard_ng_decrypt()`](#jmcard_ng_decrypt)
+	- [`jmcard_ng()`](#jmcard_ng)
 - **[Constants](#constants)**
 	- [Error Code](#error-code)
+
+---
+## Struktur Data
+
+### `jmcard_ng_t`
+Struktur data JMCARD_NG yang akan digunakan untuk menyimpan
+data hasil decrypt kartu JMCard-NG
+
+``` c
+typedef struct {
+  uint32_t ruas1;   /* ruas byte 1 */
+  uint32_t ruas2;   /* ruas byte 2 */
+  char ruas[17];    /* ruas string */
+  char expire[9];   /* expire date string */
+  int tipe;         /* jenis kartu 1. operasi, 2. karyawan, 3.mitra */
+  char nokartu[32]; /* nomor kartu string */
+  char uid[9];      /* uid string */
+  uint8_t status;   /* status error validasi kartu. */
+} jmcard_ng_t;
+```
+
+
+
 
 ---
 ## Functions
@@ -433,12 +460,51 @@ Decrypt `raw data` (hex string) yang didapatkan dari kartu menjadi output standa
 
 ``` c
 int jmentrance_decrypt(
-    const char* pubkey,
-    const char* cluster_id,
-    const char* sn,
-    const char* input,
-    char* output,
+    const char *pubkey,
+    const char *cluster_id,
+    const char *sn,
+    const char *input,
+    char *output,
     size_t output_length
+);
+```
+
+### `jmcard_ng_decrypt()`
+Decrypt `raw data` (hex string) yang didapatkan dari data whitelist untuk JM Card 
+#### Arguments
+- `ciphersrc` : String cipher hex untuk di-decrypt
+- `out` : Buffer untuk menyimpan hasil (min 256 bytes)
+ 
+#### Return Value
+- Error Code. Lihat `JMCARD_NG_OK` atau `JMCARD_NG_ERR_*`
+
+``` c
+uint8_t jmcard_ng_decrypt(
+    const char *ciphersrc,
+    char *out
+);
+```
+
+### `jmcard_ng()`
+Decrypt `raw data` (hex string) yang didapatkan dari block kartu mifare JMCard-NG menjadi struktur data jmcard_ng_t 
+#### Arguments
+- `pubkey` : Public-key untuk decrypt
+- `cluster_id` : Cluster-id key
+- `sn` : Nomor kartu etoll atau `uuid` untuk BCA
+- `input` : Hex string input
+- `output` : Hex string output
+- `output_length` : Length dari output buffer
+ 
+#### Return Value
+- Error Code. Lihat `JMCARD_NG_OK` atau `JMCARD_NG_ERR_*`
+
+``` c
+uint8_t jmcard_ng(
+    jmcard_ng_t *out,
+    const char *uuid,
+    const char *block0,
+    const char *block1,
+    const char *block2
 );
 ```
 
@@ -457,6 +523,13 @@ int jmentrance_decrypt(
 |`JMENTRANCE_ERR_SIG`|`3`|Signature error|
 |`JMENTRANCE_ERR_DATA`|`4`|Input Data error|
 |`JMENTRANCE_ERR_BUFSZ`|`5`|not enough buffer size|
+|`JMCARD_NG_OK`|`0`|Tidak terjadi error|
+|`JMCARD_NG_ERR_CKSUM`|`1`|INVALID CRC32|
+|`JMCARD_NG_ERR_SIG`|`2`|UUID NOT MATCH|
+|`JMCARD_NG_ERR_DECRYPT`|`4`|INVALID DECRYPT RESULT|
+|`JMCARD_NG_ERR_DATA`|`8`|INVALID RAW DATA INVALID|
+|`JMCARD_NG_ERR_READ`|`16`|INVALID RAW DATA INVALID|
+|`JMCARD_NG_ERR_AUTH`|`32`|INVALID RAW DATA INVALID|
 
 
 

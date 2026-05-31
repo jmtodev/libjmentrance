@@ -120,8 +120,8 @@ Block `45` akan berisi owner code pada byte pertama dengan konten `0x91` untuk e
 
 Block `46` tidak digunakan.
 
-# Kartu Dinas
-## Kartu Dinas Format Delameta
+## Entrance pada Kartu Dinas
+### Kartu Dinas Format Delameta
 Data entrance akan disimpan pada sector `9` block `0` (Atau absolute-block `36`). Dan parameter `sn` pada fungsi `jmentrance_decrypt` diisi dengan `hex-uuid`.
 
 Block `1` dan `2` pada sector `9` (Atau absolute-block `37` dan `38`) akan berisi data kosong yang tidak akan digunakan.
@@ -152,7 +152,7 @@ if (ownercode==91){
 }
 ```
 
-## Format JM Card
+### Format Entrance JM Card
 Data entrance akan disimpan pada block `16`  (dalam satu block saja). Dan parameter `sn` pada fungsi
 `jmentrance_decrypt` diisi dengan `hex-uuid` (Bukan SN Kartu).
 
@@ -173,7 +173,7 @@ Key untuk block `16`, `17` dan `18` (Sektor `4`) adalah:
 |  | 2 | 18 | - | `00000000000000000000000000000000` |
 
 
-## Keys
+# Entrance Keys
 Entrance tol Jasa Marga menggunakan enkripsi `public` & `private` key. Untuk melakukan `decrypt`
 library memerlukan `public-key` dan `cluster-id`. Setiap ruas memiliki key dan cluster-id yang berbeda-beda.
 
@@ -401,6 +401,27 @@ CB GB DG EX INST DD MM YY HH II SS ST JN GL IDPETG DR CHKSUM
 45 30 01 00 0003 06 08 24 08 18 14 00 00 01 151498 00 006594
 
 ```
+
+---
+
+# JMCard-NG - Kartu Dinas Jasa Marga New-Generation
+Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan dengan menggunakan library **libjmentrance**. Terdapat dua fungsi yaitu:
+- `jmcard_ng_decrypt()`
+- `jmcard_ng()`
+
+## Struktur Penyimpanan Data Kartu pada Mifare
+- `Sektor 1`: Berisi data personal kartu
+   - Block 0:
+   - Block 1:
+   - Block 2:
+   - Block 3:
+- `Sektor 3`: Berisi Data Entrance
+- `Sektor 15`: Berisi Owner Code
+
+## Melakukan Decrypt Data Personal
+Untuk melakukan decrypt data personal pada **JMCard-NG**, dapat menggunakan `jmcard_ng()` dengan menyertakan data hexadecimal dari **Sektor-1** (Block 0, Block 1 dan Block 2) beserta UUID kartu.
+
+Hasil decrypt berupa struktur data `jmcard_ng_t`
 
 # Referensi Library
 Berikut adalah referensi lengkap dari `libjmentrance` yang terbagi kedalam `2 segment` diantaranya:

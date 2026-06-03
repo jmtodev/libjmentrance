@@ -405,6 +405,8 @@ CB GB DG EX INST DD MM YY HH II SS ST JN GL IDPETG DR CHKSUM
 ---
 
 # JMCard-NG - Kartu Dinas Jasa Marga New-Generation
+Kartu Tol Perusahaan Jasa Marga New Generation (KTP JM-NG) adalah sistem pembayaran elektronik yang dirancang untuk mendukung transaksi kartu dinas pada ruas tol yang dikelola oleh Jasa Marga Group. Dokumen ini menjelaskan spesifikasi teknis, penggunaan library, serta mekanisme integrasi yang diperlukan untuk membaca dan mendekripsi data kartu KTP JM-NG, termasuk proses verifikasi dan dekripsi signature yang digunakan sebagai bagian dari mekanisme autentikasi transaksi berbasis whitelist kartu dinas.
+
 Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan dengan menggunakan library **libjmentrance**. Terdapat dua fungsi yaitu:
 - `jmcard_ng_decrypt()`
 - `jmcard_ng()`

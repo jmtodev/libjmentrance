@@ -423,6 +423,54 @@ Untuk melakukan decrypt data personal pada **JMCard-NG**, dapat menggunakan `jmc
 
 Hasil decrypt berupa struktur data `jmcard_ng_t`
 
+### Contoh penggunaan jmcard_ng()
+```c
+#include <libjmentrance.h>
+#include <stdio.h>
+
+int main() {
+  jmcard_ng_t jmcard = {0};
+
+  // UUID Kartu: 33627705
+  const char* uuid = "33627705";
+  // Mifare Sector-1 Block 0, 1, 2
+  const char* block0 = "8B55DA5B230324EEF53281FDA91CF617";
+  const char* block1 = "7FE86B1B9EB8E52C4240F52AA89362FE";
+  const char* block2 = "856AD4EAC610A53F317CAB5573568138";
+
+  // Decrypt jmcard-ng data
+  uint8_t ret = jmcard_ng(&jmcard, uuid, block0, block1, block2);
+
+  printf("DECRYPTED DATA %s\n", ret == 0 ? "SUCCESS" : "FAILED");
+  if (ret == 0) {
+    printf("  UUID       : %s\n", uuid);
+    printf("  RUAS BYTE 1: %u\n", jmcard.ruas1);
+    printf("  RUAS BYTE 2: %u\n", jmcard.ruas2);
+    printf("  RUAS STRING : %s\n", jmcard.ruas);
+    printf("  EXPIRE DATE : %s\n", jmcard.expire);
+    printf("  TIPE KARTU  : %d\n", jmcard.tipe);
+    printf("  NO KARTU    : %s\n", jmcard.nokartu);
+    printf("  UID         : %s\n", jmcard.uid);
+    printf("  STATUS      : %u\n", jmcard.status);
+  }
+  return 0;
+}
+```
+
+Contoh di atas akan menghasilkan output sebagai berikut:
+```
+DECRYPTED DATA SUCCESS
+  UUID       : 33627705
+  RUAS BYTE 1: 1
+  RUAS BYTE 2: 0
+  RUAS STRING : 0000000000000001
+  EXPIRE DATE : 20261231
+  TIPE KARTU  : 1
+  NO KARTU    : 01000141033000002
+  UID         : 33627705
+  STATUS      : 1
+```
+
 # Referensi Library
 Berikut adalah referensi lengkap dari `libjmentrance` yang terbagi kedalam `2 segment` diantaranya:
 - **Function** - Merupakan fungsi-fungsi yang terdapat dalam library.

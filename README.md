@@ -412,13 +412,35 @@ Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan den
 - `jmcard_ng()`
 
 ## Struktur Penyimpanan Data Kartu pada Mifare
-- `Sektor 1`: Berisi data personal kartu
-   - Block 0:
-   - Block 1:
-   - Block 2:
-   - Block 3:
-- `Sektor 3`: Berisi Data Entrance
-- `Sektor 15`: Berisi Owner Code
+
+| Sectors | Blok | ABS         | Data          |
+| ------- | ---- | ----------- | ------------- |
+| 0       | 0    | 0           | **UID**           |
+| | 1       | 1    |             |
+| | 2       | 2    |             |
+| | 3       | 3    | *Key Sectors* |
+| | | | |
+| 1       | 0    | 4           | **Data Kartu Block-0**   |
+| | 1       | 5    | **Data Kartu Block-1**   |
+| | 2       | 6    | **Data Kartu Block-2**   |
+| | 3       | 7    | *Key Sectors* |
+| | | | |
+| 2       | 0    | 8           |               |
+| | 1       | 9    |             |
+| | 2       | 10   |             |
+| | 3       | 11   | *Key Sectors* |
+| | | | |
+| 3       | 0    | 12          |               |
+| | 1       | 13   |             |
+| | 2       | 14   |             |
+| | 3       | 15   | *Key Sectors* |
+| | | | |
+| 4       | 0    | 16          | Data Entrance |
+| | 1       | 17   | - |
+| | 2       | 18   | Owner Code  |
+| | 3       | 19   | *Key Sectors* |
+
+
 
 ## Melakukan Decrypt Data Personal
 Untuk melakukan decrypt data personal pada **JMCard-NG**, dapat menggunakan `jmcard_ng()` dengan menyertakan data hexadecimal dari **Sektor-1** (Block 0, Block 1 dan Block 2) beserta UUID kartu.

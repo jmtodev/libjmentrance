@@ -35,5 +35,13 @@ ${CC} -O2 $CFLAGS \
   -Iinclude \
   -o bin/libjmentrance-test-$ARCH
 
+
+echo "BUILD JMCARD-NG EXAMPLE"
+${CC} -O2 $CFLAGS \
+  example/jmcardng-test.c \
+  lib/libjmentrance-$ARCH.a \
+  -Iinclude \
+  -o bin/jmcardng-test-$ARCH
+
 echo "FINISH...";
 

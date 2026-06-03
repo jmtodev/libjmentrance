@@ -420,9 +420,9 @@ Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan den
 | | 2       | 2    |             |
 | | 3       | 3    | *Key Sectors* |
 | | | | |
-| 1       | 0    | 4           | **Data Kartu Block-0**   |
-| | 1       | 5    | **Data Kartu Block-1**   |
-| | 2       | 6    | **Data Kartu Block-2**   |
+| 1       | 0    | 4           | **Data KTP Block-0**   |
+| | 1       | 5    | **Data KTP Block-1**   |
+| | 2       | 6    | **Data KTP Block-2**   |
 | | 3       | 7    | *Key Sectors* |
 | | | | |
 | 2       | 0    | 8           |               |

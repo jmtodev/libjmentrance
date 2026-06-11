@@ -440,7 +440,41 @@ Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan den
 | | 2       | 18   | Owner Code  |
 | | 3       | 19   | *Key Sectors* |
 
+## Mifare Key
+Untuk membaca `sektor-1` pada kartu mifare JMCard-NG, dapat menggunakan kunci berikut:
+- **Key-A**: `2177A6F53421`
 
+## Flow Proses Validasi JMCard-NG
+- Pembacaan dan Parsing Kartu JMCard-NG
+  1. Baca UUID
+  2. Baca `block-0, block-1, block-2` di dalam `sektor-1` pada kartu mifare dengan Key-A `2177A6F53421`
+  3. Jalankan fungsi `jmcard_ng` 
+  4. Bila parsing berhasil, data kartu bisa digunakan dengan format `jmcard_ng_t`
+- Validasi Ruas
+  1. Pastikan konfigurasi ruas GTO telah dilakukan menggunakan fungsi `jmcard_ng_config_ruas`. Fungsi konfigurasi ini **bisa hanya dilakukan sekali** ketika program GTO dijalankan.
+  2. Lakukan pembacaan dan parsing kartu jmcard-ng seperti langkah sebelumnya
+  3. Gunakan fungsi `jmcard_ng_cek_ruas` untuk mengetahui/memvalidasi kartu tersebut bisa transaksi pada gardu.
+- Validasi Whitelist
+  1. Tap Kartu, dan baca UUID
+  2. Cari uuid pada database whitelist, dan ambil signature dari whitelist tersebut
+  3. Lakukan validasi signature menggunakan fungsi `jmcard_ng_decrypt`
+  4. Hasil parsing berupa text tersusun dengan format whitelist (Lihat **Format Signature Whitelist**)
+
+## Format Signature Whitelist
+Signature whitelist secara data disimpan ter-enkripsi, dapat dilakukan decrypt dengan menggunakan `jmcard_ng_decrypt`, yang akan menghasilkan string dengan format berikut:
+
+```
+CONTOH: 
+3A011320280519B73F8BE37D6FD112
+>> 3 A 01 13 20280519 B73F8BE3 7D6FD112
+3        : Harus berisi "3" atau signature tidak valid
+a        : Status Kartu (a. Aktif, b. Tidak Aktif)
+01       : Kode Ruas
+13       : Nomor Gerbang
+20280519 : Kadaluarsa YYYYMMDD
+B73F8BE3 : Signature Value (Berubah setiap update data)
+7D6FD112 : UUID Kartu
+```
 
 ## Melakukan Decrypt Data Personal
 Untuk melakukan decrypt data personal pada **JMCard-NG**, dapat menggunakan `jmcard_ng()` dengan menyertakan data hexadecimal dari **Sektor-1** (Block 0, Block 1 dan Block 2) beserta UUID kartu.
@@ -452,12 +486,30 @@ Hasil decrypt berupa struktur data `jmcard_ng_t`
 #include <libjmentrance.h>
 #include <stdio.h>
 
-int main() {
+// Fungsi untuk menampilkan data jmcard-ng
+void dump_jmcard_ng(jmcard_ng_t* jmcard) {
+  printf("- RUAS BYTE 1: %08X\n", jmcard->ruas1);
+  printf("- RUAS BYTE 2: %08X\n", jmcard->ruas2);
+  printf("- RUAS STRING : %s\n", jmcard->ruas);
+  printf("- EXPIRE DATE : %s\n", jmcard->expire);
+  printf("- TIPE KARTU  : %d\n", jmcard->tipe);
+  printf("- NO KARTU    : %s\n", jmcard->nokartu);
+  printf("- UID         : %s\n", jmcard->uid);
+  printf("- STATUS      : %u\n", jmcard->status);
+  printf("\n");
+}
+
+// Fungsi untuk test parsing jmcard-ng
+void test_parsing_jmcard_ng() {
   jmcard_ng_t jmcard = {0};
 
   // UUID Kartu: 33627705
   const char* uuid = "33627705";
+
   // Mifare Sector-1 Block 0, 1, 2
+  // Baca sektor-1 blok 0, 1, 2 menggunakan fungsi pembaca kartu mifare,
+  // lalu masukkan data blok tersebut ke fungsi jmcard_ng untuk didekripsi.
+  // Gunakan key A berikut: "2177A6F53421"
   const char* block0 = "8B55DA5B230324EEF53281FDA91CF617";
   const char* block1 = "7FE86B1B9EB8E52C4240F52AA89362FE";
   const char* block2 = "856AD4EAC610A53F317CAB5573568138";
@@ -465,34 +517,124 @@ int main() {
   // Decrypt jmcard-ng data
   uint8_t ret = jmcard_ng(&jmcard, uuid, block0, block1, block2);
 
+  // Tampilkan hasil decrypt
   printf("DECRYPTED DATA %s\n", ret == 0 ? "SUCCESS" : "FAILED");
   if (ret == 0) {
-    printf("  UUID       : %s\n", uuid);
-    printf("  RUAS BYTE 1: %u\n", jmcard.ruas1);
-    printf("  RUAS BYTE 2: %u\n", jmcard.ruas2);
-    printf("  RUAS STRING : %s\n", jmcard.ruas);
-    printf("  EXPIRE DATE : %s\n", jmcard.expire);
-    printf("  TIPE KARTU  : %d\n", jmcard.tipe);
-    printf("  NO KARTU    : %s\n", jmcard.nokartu);
-    printf("  UID         : %s\n", jmcard.uid);
-    printf("  STATUS      : %u\n", jmcard.status);
+    // Decrypt berhasil, tampilkan data jmcard-ng
+    dump_jmcard_ng(&jmcard);
+
+    // Cek validasi ruas
+    int ruas_valid = jmcard_ng_cek_ruas(jmcard.ruas1, jmcard.ruas2);
+    printf("CEK RUAS:\n");
+    printf("- JUMLAH RUAS VALID: %d\n", ruas_valid);
+    printf("- STATUS RUAS.     : %s\n", ruas_valid > 0 ? "OK" : "RUAS LAIN");
+    printf("\n");
+  } else {
+    // Decrypt gagal, tampilkan error
+    printf("DECRYPT ERROR : %u\n", ret);
+    switch (ret) {
+      case JMCARD_NG_ERR_CKSUM:
+        printf("- INVALID CHECKSUM\n");
+        break;
+      case JMCARD_NG_ERR_SIG:
+        printf("- UUID NOT MATCH / SIGNATURE INVALID\n");
+        break;
+      case JMCARD_NG_ERR_DECRYPT:
+        printf("- INVALID DECRYPT RESULT\n");
+        break;
+      case JMCARD_NG_ERR_DATA:
+        printf("- INVALID RAW DATA\n");
+        break;
+      case JMCARD_NG_ERR_READ:
+        printf("- ERROR READING DATA\n");
+        break;
+      case JMCARD_NG_ERR_AUTH:
+        printf("- AUTHENTICATION ERROR\n");
+        break;
+    }
   }
+}
+
+void whitelist_validation(const char* uuid, const char* whitelist_signature) {
+  // Decrypt signature whitelist
+  char out[128] = {0};  // Buffer untuk menyimpan hasil decrypt
+  uint8_t r = jmcard_ng_decrypt(whitelist_signature, out);
+
+  // Tampilkan hasil decrypt
+  printf("UUID: %s\n", uuid);
+  printf("DECRYPT WHITELIST SIGNATURE %s\n", r == 1 ? "SUCCESS" : "FAILED");
+  if (r == 1) {
+    printf("- DECRYPTED SIGNATURE: %s\n", out);
+  } else {
+    printf("- DECRYPT ERROR: %u\n", r);
+  }
+  printf("\n");
+}
+
+void test_whitelist_ktp() {
+  // Test whitelist signature untuk beberapa UUID
+  whitelist_validation("7D6FD112",
+                       "7c030aa5f13280567ae477fba52232f2cfbf2c813053100499df33d"
+                       "5956264ae72344b7708b9995d4ebe9a1b666d40ea");
+  whitelist_validation("2595D4A0",
+                       "8d578b5884c43ab546d10716edef65f37eb26612394b688e753340b"
+                       "99544bcce108bde269094a90e842aa89a6b31afb6");
+  whitelist_validation("DC7425D4",
+                       "5ec00535d1c2effda1c28005bac1f576de2f16abab1c7355c719576"
+                       "f1c87c29aba05c55f65658b14f484bc3cc589cf77");
+}
+
+int main() {
+  jmcard_ng_t jmcard = {0};
+
+  // Konfigurasi Ruas pada GTO
+  // Silahkan baca dokumentasi `jmcard_ng_config_ruas` untuk format konfigurasi
+  // ruas yang benar.
+  //
+  // Contoh: Harus ada ruas 1, atau ruas 2 dan 3, atau ruas 4
+  jmcard_ng_config_ruas("1, 2+3, 4");
+
+  // Test parsing jmcard-ng dengan data contoh. Data ini diambil dari kartu asli
+  // yang sudah didekripsi menggunakan alat dekripsi lain. Pastikan data blok
+  // yang digunakan benar agar hasil parsing sesuai dengan data asli kartu.
+  test_parsing_jmcard_ng();
+
+  // Test validasi whitelist KTP dengan beberapa UUID dan signature whitelist
+  test_whitelist_ktp();
+
   return 0;
 }
+
 ```
 
 Contoh di atas akan menghasilkan output sebagai berikut:
 ```
 DECRYPTED DATA SUCCESS
-  UUID       : 33627705
-  RUAS BYTE 1: 1
-  RUAS BYTE 2: 0
-  RUAS STRING : 0000000000000001
-  EXPIRE DATE : 20261231
-  TIPE KARTU  : 1
-  NO KARTU    : 01000141033000002
-  UID         : 33627705
-  STATUS      : 1
+- RUAS BYTE 1: 00000001
+- RUAS BYTE 2: 00000000
+- RUAS STRING : 0000000000000001
+- EXPIRE DATE : 20261231
+- TIPE KARTU  : 1
+- NO KARTU    : 01000141033000002
+- UID         : 33627705
+- STATUS      : 1
+
+CEK RUAS:
+- JUMLAH RUAS VALID: 1
+- STATUS RUAS.     : OK
+
+UUID: 7D6FD112
+DECRYPT WHITELIST SIGNATURE SUCCESS
+- DECRYPTED SIGNATURE: 3a011320280519b73f8be37d6fd112
+
+UUID: 2595D4A0
+DECRYPT WHITELIST SIGNATURE SUCCESS
+- DECRYPTED SIGNATURE: 3a01132028051973f09cd52595d4a0
+
+UUID: DC7425D4
+DECRYPT WHITELIST SIGNATURE SUCCESS
+- DECRYPTED SIGNATURE: 3a01012028051909f879ccdc7425d4
+
 ```
 
 # Referensi Library
@@ -509,6 +651,8 @@ Berikut adalah referensi lengkap dari `libjmentrance` yang terbagi kedalam `2 se
 	- [`jmentrance_decrypt()`](#jmentrance_decrypt)
 	- [`jmcard_ng_decrypt()`](#jmcard_ng_decrypt)
 	- [`jmcard_ng()`](#jmcard_ng)
+	- [`jmcard_ng_config_ruas()`](#jmcard_ng_config_ruas)
+	- [`jmcard_ng_cek_ruas()`](#jmcard_ng_cek_ruas)
 - **[Constants](#constants)**
 	- [Error Code](#error-code)
 
@@ -521,8 +665,8 @@ data hasil decrypt kartu JMCard-NG
 
 ``` c
 typedef struct {
-  uint32_t ruas1;   /* ruas byte 1 */
-  uint32_t ruas2;   /* ruas byte 2 */
+  uint32_t ruas1;   /* ruas segment 1 */
+  uint32_t ruas2;   /* ruas segment 2 */
   char ruas[17];    /* ruas string */
   char expire[9];   /* expire date string */
   int tipe;         /* jenis kartu 1. operasi, 2. karyawan, 3.mitra */
@@ -569,7 +713,7 @@ Decrypt `raw data` (hex string) yang didapatkan dari data whitelist untuk JM Car
 - `out` : Buffer untuk menyimpan hasil (min 256 bytes)
  
 #### Return Value
-- Error Code. Lihat `JMCARD_NG_OK` atau `JMCARD_NG_ERR_*`
+- 0 gagal, 1 berhasil
 
 ``` c
 uint8_t jmcard_ng_decrypt(
@@ -598,6 +742,36 @@ uint8_t jmcard_ng(
     const char *block0,
     const char *block1,
     const char *block2
+);
+```
+
+### `jmcard_ng_config_ruas()`
+Konfigurasi list ruas yang valid untuk kartu JMCard-NG. Fungsi ini digunakan untuk menentukan ruas mana saja yang dianggap valid saat melakukan validasi kartu.  Gunakan koma untuk memisahkan ruas, dan gunakan tanda plus untuk kombinasi ruas. Contoh: - "1, 2, 3" -> hanya ruas 1, 2, dan 3 yang valid - "1+2, 3" -> harus ada ruas 1 dan 2, atau memikiki ruas 3 
+#### Arguments
+- `config_ruas` : String daftar ruas dan kombinasi ruas
+ 
+#### Return Value
+- void
+
+``` c
+void jmcard_ng_config_ruas(
+    const char *config_ruas
+);
+```
+
+### `jmcard_ng_cek_ruas()`
+Konfigurasi list ruas yang valid untuk kartu JMCard-NG. Fungsi ini digunakan untuk menentukan ruas mana saja yang dianggap valid saat melakukan validasi kartu. 
+#### Arguments
+- `ruas1` : Ruas segment 1 yang didapat dari kartu (jmcard_ng_t)
+- `ruas2` : Ruas segment 2 yang didapat dari kartu (jmcard_ng_t)
+ 
+#### Return Value
+- int Jumlah kombinasi ruas yang valid, 0 jika tidak ada yang valid
+
+``` c
+int jmcard_ng_cek_ruas(
+    uint32_t ruas1,
+    uint32_t ruas2
 );
 ```
 

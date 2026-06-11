@@ -38,8 +38,8 @@ extern "C" {
  * data hasil decrypt kartu JMCard-NG
  */
 typedef struct {
-  uint32_t ruas1;   /* ruas byte 1 */
-  uint32_t ruas2;   /* ruas byte 2 */
+  uint32_t ruas1;   /* ruas segment 1 */
+  uint32_t ruas2;   /* ruas segment 2 */
   char ruas[17];    /* ruas string */
   char expire[9];   /* expire date string */
   int tipe;         /* jenis kartu 1. operasi, 2. karyawan, 3.mitra */
@@ -86,7 +86,7 @@ int jmentrance_decrypt(const char *pubkey, const char *cluster_id,
  * whitelist untuk JM Card
  * @param ciphersrc String cipher hex untuk di-decrypt
  * @param out Buffer untuk menyimpan hasil (min 256 bytes)
- * @return Error Code. Lihat `JMCARD_NG_OK` atau <b>JMCARD_NG_ERR_*</b>
+ * @return 0 gagal, 1 berhasil
  */
 uint8_t jmcard_ng_decrypt(const char *ciphersrc, char *out);
 
@@ -103,6 +103,30 @@ uint8_t jmcard_ng_decrypt(const char *ciphersrc, char *out);
  */
 uint8_t jmcard_ng(jmcard_ng_t *out, const char *uuid, const char *block0,
                   const char *block1, const char *block2);
+
+/**
+ * Konfigurasi list ruas yang valid untuk kartu JMCard-NG. Fungsi ini digunakan
+ * untuk menentukan ruas mana saja yang dianggap valid saat melakukan validasi
+ * kartu.
+ *
+ * Gunakan koma untuk memisahkan ruas, dan gunakan tanda plus untuk kombinasi
+ * ruas. Contoh:
+ * - "1, 2, 3" -> hanya ruas 1, 2, dan 3 yang valid
+ * - "1+2, 3" -> harus ada ruas 1 dan 2, atau memikiki ruas 3
+ * @param config_ruas String daftar ruas dan kombinasi ruas
+ * @return void
+ */
+void jmcard_ng_config_ruas(const char *config_ruas);
+
+/**
+ * Konfigurasi list ruas yang valid untuk kartu JMCard-NG. Fungsi ini digunakan
+ * untuk menentukan ruas mana saja yang dianggap valid saat melakukan validasi
+ * kartu.
+ * @param ruas1 Ruas segment 1 yang didapat dari kartu (jmcard_ng_t)
+ * @param ruas2 Ruas segment 2 yang didapat dari kartu (jmcard_ng_t)
+ * @return int Jumlah kombinasi ruas yang valid, 0 jika tidak ada yang valid
+ */
+int jmcard_ng_cek_ruas(uint32_t ruas1, uint32_t ruas2);
 
 /* [END-DOC] */
 /* end of extern for cpp */

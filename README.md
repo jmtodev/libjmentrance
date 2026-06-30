@@ -439,7 +439,7 @@ Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan den
 Untuk membaca `sektor-1` pada kartu mifare JMCard-NG, dapat menggunakan kunci berikut:
 - **Key-A**: `2177A6F53421`
 
-Untuk melakukan baca-tulis entrance `sektor-3` pada kartu mifare JMCard-NG, dapat menggunakan kuncti berikut:
+Untuk melakukan baca-tulis entrance `sektor-3` pada kartu mifare JMCard-NG, dapat menggunakan kunci berikut:
 - **Key-A**: `FFFFFFFFFFFF`
 
 ## Flow Proses Validasi JMCard-NG

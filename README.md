@@ -430,19 +430,17 @@ Library untuk membaca dan memproses data kartu **JMCard-NG** dapat dilakukan den
 | | 2       | 10   |             |
 | | 3       | 11   | *Key Sectors* |
 | | | | |
-| 3       | 0    | 12          |               |
+| 3       | 0    | 12          | Data Entrance |
 | | 1       | 13   |             |
-| | 2       | 14   |             |
+| | 2       | 14   | Owner Code |
 | | 3       | 15   | *Key Sectors* |
-| | | | |
-| 4       | 0    | 16          | Data Entrance |
-| | 1       | 17   | - |
-| | 2       | 18   | Owner Code  |
-| | 3       | 19   | *Key Sectors* |
 
 ## Mifare Key
 Untuk membaca `sektor-1` pada kartu mifare JMCard-NG, dapat menggunakan kunci berikut:
 - **Key-A**: `2177A6F53421`
+
+Untuk melakukan baca-tulis entrance `sektor-3` pada kartu mifare JMCard-NG, dapat menggunakan kuncti berikut:
+- **Key-A**: `FFFFFFFFFFFF`
 
 ## Flow Proses Validasi JMCard-NG
 - Pembacaan dan Parsing Kartu JMCard-NG
